@@ -1,0 +1,53 @@
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM opensuse/leap:15 AS base
+RUN zypper -n install libicu && \
+    zypper -n install wget && \
+    rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
+    wget https://packages.microsoft.com/config/opensuse/15/prod.repo && \
+    mv prod.repo /etc/zypp/repos.d/microsoft-prod.repo && \
+    chown root:root /etc/zypp/repos.d/microsoft-prod.repo
+RUN zypper -n install aspnetcore-runtime-7.0
+RUN zypper -n install glibc && \
+    zypper -n install glibc-devel && \
+    zypper -n install fontconfig && \
+    zypper -n install libharfbuzz0 && \
+    zypper -n install freetype && \
+    zypper -n install fetchmsttfonts
+
+WORKDIR /app
+
+EXPOSE 80
+EXPOSE 443
+
+FROM node:18 as frontend
+WORKDIR /modules
+COPY ["package.json", "./"]
+RUN npm install
+
+FROM opensuse/leap:15 AS build
+RUN zypper -n install libicu && \
+    zypper -n install wget && \
+    rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
+    wget https://packages.microsoft.com/config/opensuse/15/prod.repo && \
+    mv prod.repo /etc/zypp/repos.d/microsoft-prod.repo && \
+    chown root:root /etc/zypp/repos.d/microsoft-prod.repo
+RUN zypper -n install dotnet-sdk-7.0
+
+WORKDIR /src
+RUN --mount=type=secret,id=dxnuget dotnet nuget add source $(cat /run/secrets/dxnuget) -n devexpress-nuget
+COPY ["ReportingWebApp.csproj", "ReportingWebApp/"]
+RUN dotnet restore "ReportingWebApp/ReportingWebApp.csproj"
+COPY ["./", "ReportingWebApp/"]
+WORKDIR "/src/ReportingWebApp"
+COPY --from=frontend ./modules .
+RUN dotnet build "ReportingWebApp.csproj" -c Release
+
+FROM build AS publish
+RUN dotnet publish "ReportingWebApp.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENV ASPNETCORE_URLS=http://+:80
+ENTRYPOINT ["dotnet", "ReportingWebApp.dll"]
