@@ -1,3 +1,7 @@
+<!-- default badges list -->
+![](https://img.shields.io/endpoint?url=https://codecentral.devexpress.com/api/v1/VersionRange/576442348/2022.2)
+[![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
+<!-- default badges end -->
 ## Reporting for ASP.NET Core - How to Use the SkiaSharp-Based DevExpress Drawing Engine
 
 This example demonstrates how to use the DevExpress.Drawing package based on the [SkiaSharp](https://github.com/mono/SkiaSharp) library instead of the System.Drawing library in an ASP.NET Core application to preview, [print](http://docs.devexpress.com/XtraReports/15797), or [export](http://docs.devexpress.com/XtraReports/2618) DevExpress XtraReports.
