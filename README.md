@@ -1,8 +1,3 @@
-<!-- default badges list -->
-![](https://img.shields.io/endpoint?url=https://codecentral.devexpress.com/api/v1/VersionRange/576442348/2022.2)
-[![](https://img.shields.io/badge/Open_in_DevExpress_Support_Center-FF7200?style=flat-square&logo=DevExpress&logoColor=white)](https://supportcenter.devexpress.com/ticket/details/T1133108)
-[![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
-<!-- default badges end -->
 ## Reporting for ASP.NET Core - How to Use the SkiaSharp-Based DevExpress Drawing Engine
 
 This example demonstrates how to use the DevExpress.Drawing package based on the [SkiaSharp](https://github.com/mono/SkiaSharp) library instead of the System.Drawing library in an ASP.NET Core application to preview, [print](http://docs.devexpress.com/XtraReports/15797), or [export](http://docs.devexpress.com/XtraReports/2618) DevExpress XtraReports.
@@ -19,17 +14,21 @@ You can run the app on the Windows platform, or the Windows Subsystem for Linux 
 Run the application from the dotnet CLI on Windows, Linux and MacOS with the `dotnet run` command.
 To run the Docker container from the command line, build the Docker image. You should pass the DevExpress NuGet source URL as a secret to restore NuGet packages. Review the [BuildKit documentation](https://docs.docker.com/build/buildkit/) for more information.
 
-```console
-set DX_NUGET=https://nuget.devexpress.com/some-nuget-token/api
-docker build -t reporting-app --secret id=dxnuget,env=DX_NUGET .
-docker run -p 8080:80 reporting-app:latest
-```
+> Windows
+>
+>```console
+>set DX_NUGET=https://nuget.devexpress.com/some-nuget-token/api
+>docker build -t reporting-app --secret id=dxnuget,env=DX_NUGET .
+>docker run -p 8080:80 reporting-app:latest
+>```
 
-```shell
-export DX_NUGET=https://nuget.devexpress.com/some-nuget-token/api
-DOCKER_BUILDKIT=1 docker build -t reporting-app --secret id=dxnuget,env=DX_NUGET .
-docker run -p 8080:80 reporting-app:latest
-```
+> Linux
+>
+>```shell
+>export DX_NUGET=https://nuget.devexpress.com/some-nuget-token/api
+>DOCKER_BUILDKIT=1 docker build -t reporting-app --secret id=dxnuget,env=DX_NUGET .
+>docker run -p 8080:80 reporting-app:latest
+>```
 
 The application page is available at the following URL: http://localhost:8080/.
 
