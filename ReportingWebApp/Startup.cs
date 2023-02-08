@@ -1,5 +1,6 @@
-using System;
 using System.IO;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using DevExpress.AspNetCore;
 using DevExpress.AspNetCore.Reporting;
 using DevExpress.Security.Resources;
@@ -10,14 +11,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using ReportingWebApp.Services;
 using ReportingWebApp.Data;
-using System.Runtime.InteropServices;
+using ReportingWebApp.Services;
 
 namespace ReportingWebApp {
     public class Startup {
-        public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment) {
+        public Startup(IConfiguration configuration) {
             Configuration = configuration;
         }
 
@@ -29,8 +28,7 @@ namespace ReportingWebApp {
             services.AddScoped<ReportStorageWebExtension, CustomReportStorageWebExtension>();
             services
                 .AddMvc()
-                .AddNewtonsoftJson()
-                .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
+                .AddNewtonsoftJson();
             services.ConfigureReportingServices(configurator => {
                 configurator.ConfigureReportDesigner(designerConfigurator => {
                     designerConfigurator.RegisterDataSourceWizardConnectionStringsProvider<CustomSqlDataSourceWizardConnectionStringsProvider>();
@@ -52,12 +50,13 @@ namespace ReportingWebApp {
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, ReportDbContext db) {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ReportDbContext db) {
             db.InitializeDatabase();
-            var contentDirectoryAllowRule = DirectoryAccessRule.Allow(new DirectoryInfo(Path.Combine(env.ContentRootPath, "..", "Content")).FullName);
-            AccessSettings.ReportingSpecificResources.TrySetRules(contentDirectoryAllowRule, UrlAccessRule.Allow());
-            DevExpress.XtraReports.Configuration.Settings.Default.UserDesignerOptions.DataBindingMode = DevExpress.XtraReports.UI.DataBindingMode.Expressions;
             app.UseDevExpressControls();
+
+            var rootPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var dataDirectoryAllowRule = DirectoryAccessRule.Allow(new DirectoryInfo(Path.Combine(rootPath, "Data")).FullName);
+            AccessSettings.DataResources.TrySetRules(dataDirectoryAllowRule, UrlAccessRule.Allow());
             System.Net.ServicePointManager.SecurityProtocol |= System.Net.SecurityProtocolType.Tls12;
             if(env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();

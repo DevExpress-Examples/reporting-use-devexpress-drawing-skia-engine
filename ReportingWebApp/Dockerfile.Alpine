@@ -1,18 +1,24 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0-alpine AS base
-RUN apk update && \
-    apk upgrade && \
-    apk add icu-libs icu-dev harfbuzz freetype fontconfig && \
-    rm -rf /var/cache/apk/* && \
+
+#Install dependencies
+RUN apk update && apk upgrade
+RUN apk add icu-libs icu-data-full fontconfig
+
+#Install fonts
+RUN apk add ttf-dejavu && \
+    apk add msttcorefonts-installer && \
     apk add ttf-dejavu && \
+    update-ms-fonts && \
     fc-cache -f
 
 WORKDIR /app
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 EXPOSE 80
 EXPOSE 443
 
-FROM node:18 as frontend
+FROM node:18-alpine as frontend
 WORKDIR /modules
 COPY ["package.json", "./"]
 RUN npm install

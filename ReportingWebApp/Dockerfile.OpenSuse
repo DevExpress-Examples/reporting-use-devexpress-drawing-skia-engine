@@ -1,22 +1,23 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM opensuse/leap:15 AS base
-RUN zypper -n install libicu && \
-    zypper -n install wget && \
-    rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
-    wget https://packages.microsoft.com/config/opensuse/15/prod.repo && \
+FROM opensuse/leap AS base
+RUN zypper -n install wget libicu && \
+    wget https://packages.microsoft.com/keys/microsoft.asc
+RUN rpm --import microsoft.asc
+
+RUN wget https://packages.microsoft.com/config/opensuse/15/prod.repo && \
     mv prod.repo /etc/zypp/repos.d/microsoft-prod.repo && \
     chown root:root /etc/zypp/repos.d/microsoft-prod.repo
 RUN zypper -n install aspnetcore-runtime-7.0
-RUN zypper -n install glibc && \
-    zypper -n install glibc-devel && \
-    zypper -n install fontconfig && \
-    zypper -n install libharfbuzz0 && \
-    zypper -n install freetype && \
-    zypper -n install fetchmsttfonts
+
+#Install dependencies
+RUN zypper -n install glibc-devel fontconfig
+
+#Install fonts
+RUN zypper -n install fetchmsttfonts
 
 WORKDIR /app
-
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 EXPOSE 80
 EXPOSE 443
 
@@ -25,18 +26,19 @@ WORKDIR /modules
 COPY ["package.json", "./"]
 RUN npm install
 
-FROM opensuse/leap:15 AS build
-RUN zypper -n install libicu && \
-    zypper -n install wget && \
-    rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
-    wget https://packages.microsoft.com/config/opensuse/15/prod.repo && \
+FROM opensuse/leap AS build
+RUN zypper -n install wget libicu && \
+    wget https://packages.microsoft.com/keys/microsoft.asc
+RUN rpm --import microsoft.asc
+
+RUN wget https://packages.microsoft.com/config/opensuse/15/prod.repo && \
     mv prod.repo /etc/zypp/repos.d/microsoft-prod.repo && \
     chown root:root /etc/zypp/repos.d/microsoft-prod.repo
 RUN zypper -n install dotnet-sdk-7.0
 
 WORKDIR /src
 RUN --mount=type=secret,id=dxnuget dotnet nuget add source $(cat /run/secrets/dxnuget) -n devexpress-nuget
-COPY ["ReportingWebApp.csproj", "ReportingWebApp/"]
+COPY ["/.", "ReportingWebApp/"]
 RUN dotnet restore "ReportingWebApp/ReportingWebApp.csproj"
 COPY ["./", "ReportingWebApp/"]
 WORKDIR "/src/ReportingWebApp"

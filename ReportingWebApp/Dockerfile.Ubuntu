@@ -1,13 +1,10 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0-jammy AS base
-RUN apt-get update && \
-    apt-get install -y libc6 -f -o APT::Immediate-Configure=0 && \
-    apt-get install -y \
-        libicu-dev \
-        libharfbuzz0b \
-        libfontconfig1 \
-        libfreetype6
+
+#Install dependencies
+RUN apt-get update
+RUN apt-get install -y libc6 libicu-dev libfontconfig1
 
 WORKDIR /app
 EXPOSE 80
