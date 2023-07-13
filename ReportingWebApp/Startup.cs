@@ -1,9 +1,11 @@
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using DevExpress.AspNetCore;
 using DevExpress.AspNetCore.Reporting;
 using DevExpress.Security.Resources;
+using DevExpress.Utils;
 using DevExpress.XtraReports.Web.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +28,7 @@ namespace ReportingWebApp {
         public void ConfigureServices(IServiceCollection services) {
             services.AddDevExpressControls();
             services.AddScoped<ReportStorageWebExtension, CustomReportStorageWebExtension>();
+            DeserializationSettings.RegisterTrustedClass(typeof(ReportingWebApp.Employees.DataSource));
             services
                 .AddMvc()
                 .AddNewtonsoftJson();
