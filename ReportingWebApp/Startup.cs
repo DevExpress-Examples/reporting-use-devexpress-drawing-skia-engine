@@ -1,7 +1,7 @@
+using System;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using DevExpress.AspNetCore;
 using DevExpress.AspNetCore.Reporting;
 using DevExpress.Security.Resources;
@@ -18,8 +18,9 @@ using ReportingWebApp.Services;
 
 namespace ReportingWebApp {
     public class Startup {
-        public Startup(IConfiguration configuration) {
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment) {
             Configuration = configuration;
+            AppDomain.CurrentDomain.SetData("DataDirectory", environment.ContentRootPath);
         }
 
         public IConfiguration Configuration { get; }
@@ -45,6 +46,7 @@ namespace ReportingWebApp {
                 });
                 configurator.UseAsyncEngine();
             });
+
             services.AddDbContext<ReportDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("ReportsDataConnectionString")));
 
             if(!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
@@ -61,6 +63,7 @@ namespace ReportingWebApp {
             var dataDirectoryAllowRule = DirectoryAccessRule.Allow(new DirectoryInfo(Path.Combine(rootPath, "Data")).FullName);
             AccessSettings.DataResources.TrySetRules(dataDirectoryAllowRule, UrlAccessRule.Allow());
             System.Net.ServicePointManager.SecurityProtocol |= System.Net.SecurityProtocolType.Tls12;
+
             if(env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             } else {
@@ -70,7 +73,7 @@ namespace ReportingWebApp {
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            
+
             app.UseRouting();
 
             app.UseAuthorization();
