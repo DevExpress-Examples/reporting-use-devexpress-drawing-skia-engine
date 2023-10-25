@@ -9,7 +9,7 @@ This example demonstrates use of the DevExpress.Drawing package based on the [Sk
 
 The commands required to configure the host operating system environment for the DevExpress Drawing Engine are included in the docker file.
 
-## How to build and run this example
+## How to Build and Run This Example
 
 ### Visual Studio
 
