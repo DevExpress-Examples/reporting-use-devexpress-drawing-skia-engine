@@ -18,10 +18,11 @@ RUN zypper -n install fetchmsttfonts
 
 WORKDIR /app
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+ENV ASPNETCORE_URLS=http://+:80
 EXPOSE 80
 EXPOSE 443
 
-FROM node:18 as frontend
+FROM node:18 as build-frontend
 WORKDIR /modules
 COPY ["package.json", "./"]
 RUN npm install
@@ -37,12 +38,12 @@ RUN wget https://packages.microsoft.com/config/opensuse/15/prod.repo && \
 RUN zypper -n install dotnet-sdk-7.0
 
 WORKDIR /src
-RUN --mount=type=secret,id=dxnuget dotnet nuget add source $(cat /run/secrets/dxnuget) -n devexpress-nuget
-COPY ["/.", "ReportingWebApp/"]
+RUN --mount=type=secret,id=dxnuget,required=true dotnet nuget add source $(cat /run/secrets/dxnuget) -n devexpress-nuget
+COPY ["ReportingWebApp.csproj", "ReportingWebApp/"]
 RUN dotnet restore "ReportingWebApp/ReportingWebApp.csproj"
 COPY ["./", "ReportingWebApp/"]
 WORKDIR "/src/ReportingWebApp"
-COPY --from=frontend ./modules .
+COPY --from=build-frontend ./modules .
 RUN dotnet build "ReportingWebApp.csproj" -c Release
 
 FROM build AS publish
@@ -51,5 +52,4 @@ RUN dotnet publish "ReportingWebApp.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENV ASPNETCORE_URLS=http://+:80
 ENTRYPOINT ["dotnet", "ReportingWebApp.dll"]

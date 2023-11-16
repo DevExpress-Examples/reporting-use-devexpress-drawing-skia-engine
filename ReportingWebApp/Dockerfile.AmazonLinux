@@ -8,10 +8,11 @@ RUN yum install -y aspnetcore-runtime-7.0
 RUN yum install -y glibc-devel libicu fontconfig
 
 WORKDIR /app
+ENV ASPNETCORE_URLS=http://+:80
 EXPOSE 80
 EXPOSE 443
 
-FROM node:18-bullseye as frontend
+FROM node:18 as build-frontend
 WORKDIR /modules
 COPY ["package.json", "./"]
 RUN npm install
@@ -21,12 +22,12 @@ RUN rpm -Uvh https://packages.microsoft.com/config/centos/7/packages-microsoft-p
 RUN yum install -y dotnet-sdk-7.0
 
 WORKDIR /src
-RUN --mount=type=secret,id=dxnuget dotnet nuget add source $(cat /run/secrets/dxnuget) -n devexpress-nuget
+RUN --mount=type=secret,id=dxnuget,required=true dotnet nuget add source $(cat /run/secrets/dxnuget) -n devexpress-nuget
 COPY ["ReportingWebApp.csproj", "ReportingWebApp/"]
 RUN dotnet restore "ReportingWebApp/ReportingWebApp.csproj"
 COPY ["./", "ReportingWebApp/"]
 WORKDIR "/src/ReportingWebApp"
-COPY --from=frontend ./modules .
+COPY --from=build-frontend ./modules .
 RUN dotnet build "ReportingWebApp.csproj" -c Release -o /app/build
 
 FROM build AS publish
@@ -35,5 +36,4 @@ RUN dotnet publish "ReportingWebApp.csproj" -c Release -o /app/publish /p:UseApp
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENV ASPNETCORE_URLS=http://+:80
 ENTRYPOINT ["dotnet", "ReportingWebApp.dll"]

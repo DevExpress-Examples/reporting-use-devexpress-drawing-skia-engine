@@ -10,19 +10,19 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM node:18 as frontend
+FROM node:18 as build-frontend
 WORKDIR /modules
 COPY ["package.json", "./"]
 RUN npm install
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0-jammy AS build
 WORKDIR /src
-RUN --mount=type=secret,id=dxnuget dotnet nuget add source $(cat /run/secrets/dxnuget) -n devexpress-nuget
+RUN --mount=type=secret,id=dxnuget,required=true dotnet nuget add source $(cat /run/secrets/dxnuget) -n devexpress-nuget
 COPY ["ReportingWebApp.csproj", "ReportingWebApp/"]
 RUN dotnet restore "ReportingWebApp/ReportingWebApp.csproj"
 COPY ["./", "ReportingWebApp/"]
 WORKDIR "/src/ReportingWebApp"
-COPY --from=frontend ./modules .
+COPY --from=build-frontend ./modules .
 RUN dotnet build "ReportingWebApp.csproj" -c Release -o /app/build
 
 FROM build AS publish
