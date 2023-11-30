@@ -5,6 +5,8 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileFile>Dockerfile</DockerfileFile>
     <UserSecretsId>7bffbdbd-957d-40bc-92c8-236f2904aaee</UserSecretsId>
+    <DockerfileContext>.</DockerfileContext>
+    <DockerfileBuildArguments>--secret id=dxnuget,source=secrets.dev.yaml</DockerfileBuildArguments>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Reports\**" />

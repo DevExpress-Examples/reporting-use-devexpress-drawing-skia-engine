@@ -244,16 +244,6 @@
     "outputFileName": "wwwroot/js/reporting.thirdparty.bundle.js",
     "inputFiles": [
       "node_modules/knockout/build/output/knockout-latest.js",
-      "node_modules/cldrjs/dist/cldr.js",
-      "node_modules/cldrjs/dist/cldr/event.js",
-      "node_modules/cldrjs/dist/cldr/supplemental.js",
-      "node_modules/cldrjs/dist/cldr/unresolved.js",
-      "node_modules/globalize/dist/globalize.js",
-      "node_modules/globalize/dist/globalize/message.js",
-      "node_modules/globalize/dist/globalize/number.js",
-      "node_modules/globalize/dist/globalize/currency.js",
-      "node_modules/globalize/dist/globalize/date.js",
-
       "node_modules/ace-builds/src-min-noconflict/ace.js",
       "node_modules/ace-builds/src-min-noconflict/ext-language_tools.js",
       "node_modules/ace-builds/src-min-noconflict/theme-dreamweaver.js",
