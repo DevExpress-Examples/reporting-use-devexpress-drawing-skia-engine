@@ -52,8 +52,8 @@
     <PackageReference Include="DevExpress.AspNetCore.Reporting" Version="22.2.*-*" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.113" />
-    <PackageReference Include="SkiaSharp" Version="2.88.3" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.3" />
+    <PackageReference Include="SkiaSharp" Version="2.88.*-*" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.*-*" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.3" />
     <PackageReference Include="DevExpress.Drawing.Skia" Version="22.2.*-*" />
   </ItemGroup>
