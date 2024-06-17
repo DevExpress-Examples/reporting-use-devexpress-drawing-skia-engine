@@ -83,6 +83,3 @@ Review the Docker documentation for more information: [BuildKit documentation](h
 
     The **OpenSuse** docker file.
 
-## More Examples
-
-- [How to Use the DevExpress CrossPlatform Drawing Engine in an ASP.NET Core Application](https://github.com/DevExpress-Examples/Reporting-Use-the-DevExpress-CrossPlatform-Drawing-Engine)
