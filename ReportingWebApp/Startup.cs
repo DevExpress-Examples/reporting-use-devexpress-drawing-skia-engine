@@ -48,10 +48,6 @@ namespace ReportingWebApp {
             });
 
             services.AddDbContext<ReportDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("ReportsDataConnectionString")));
-
-            if(!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-                DevExpress.Drawing.Internal.DXDrawingEngine.ForceSkia();
-            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

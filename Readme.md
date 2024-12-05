@@ -61,7 +61,6 @@ Review the Docker documentation for more information: [BuildKit documentation](h
 
 - [Startup.cs](ReportingWebApp/Startup.cs)
 
-    At startup, call the `DevExpress.Drawing.Internal.DXDrawingEngine.ForceSkia` method to use the **DevExpress Drawing Skia** engine in the application.
 - [secrets.dev.yaml](ReportingWebApp/secrets.dev.yaml)
 
     The file that contains your NuGet feed URL.
