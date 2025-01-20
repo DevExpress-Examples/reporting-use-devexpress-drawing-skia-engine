@@ -2,7 +2,7 @@
 
 FROM amazonlinux AS base
 RUN rpm -Uvh https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
-RUN yum install -y aspnetcore-runtime-7.0
+RUN yum install -y aspnetcore-runtime-8.0
 
 #Install dependencies
 RUN yum install -y glibc-devel libicu fontconfig
@@ -19,7 +19,7 @@ RUN npm install
 
 FROM amazonlinux AS build
 RUN rpm -Uvh https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
-RUN yum install -y dotnet-sdk-7.0
+RUN yum install -y dotnet-sdk-8.0
 
 WORKDIR /src
 RUN --mount=type=secret,id=dxnuget,required=true dotnet nuget add source $(cat /run/secrets/dxnuget) -n devexpress-nuget

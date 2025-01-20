@@ -8,7 +8,7 @@ RUN rpm --import microsoft.asc
 RUN wget https://packages.microsoft.com/config/opensuse/15/prod.repo && \
     mv prod.repo /etc/zypp/repos.d/microsoft-prod.repo && \
     chown root:root /etc/zypp/repos.d/microsoft-prod.repo
-RUN zypper -n install aspnetcore-runtime-7.0
+RUN zypper -n install aspnetcore-runtime-8.0
 
 #Install dependencies
 RUN zypper -n install glibc-devel fontconfig
@@ -35,7 +35,7 @@ RUN rpm --import microsoft.asc
 RUN wget https://packages.microsoft.com/config/opensuse/15/prod.repo && \
     mv prod.repo /etc/zypp/repos.d/microsoft-prod.repo && \
     chown root:root /etc/zypp/repos.d/microsoft-prod.repo
-RUN zypper -n install dotnet-sdk-7.0
+RUN zypper -n install dotnet-sdk-8.0
 
 WORKDIR /src
 RUN --mount=type=secret,id=dxnuget,required=true dotnet nuget add source $(cat /run/secrets/dxnuget) -n devexpress-nuget
