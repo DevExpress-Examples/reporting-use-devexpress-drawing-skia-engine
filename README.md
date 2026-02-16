@@ -66,7 +66,7 @@ The application page is available at the following URL: http://localhost:8080/.
 
 - [How to Use the DevExpress CrossPlatform Drawing Engine in an ASP.NET Core Application](https://github.com/DevExpress-Examples/Reporting-Use-the-DevExpress-CrossPlatform-Drawing-Engine)
 <!-- feedback -->
-## Does this example address your development requirements/objectives?
+## Does This Example Address Your Development Requirements/Objectives?
 
 [<img src="https://www.devexpress.com/support/examples/i/yes-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=reporting-use-devexpress-drawing-skia-engine&~~~was_helpful=yes) [<img src="https://www.devexpress.com/support/examples/i/no-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=reporting-use-devexpress-drawing-skia-engine&~~~was_helpful=no)
 
