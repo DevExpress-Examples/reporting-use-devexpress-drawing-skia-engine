@@ -10,21 +10,21 @@ This example demonstrates how to use the DevExpress.Drawing package based on the
 
 The commands required to configure the host operating system environment for the DevExpress Drawing Engine are included in the docker file.
 
-## How to Build and Run this Example
+## How to Build and Run This Example
 
 ### Obtain Your Personal DevExpress License Key
 
-Building a project within a dockerized environment cannot obtain the host's key automatically - which is usually supplied as a build-time secret. Refer to [License Key for DevExpress .NET Products](https://docs.devexpress.com/GeneralInformation/405494/trial-register/set-up-your-dev-express-license-key).
+Building a project within a dockerized environment does not obtain the host's key automatically - which is usually supplied as a build-time secret. Refer to [License Key for DevExpress .NET Products](https://docs.devexpress.com/GeneralInformation/405494/trial-register/set-up-your-dev-express-license-key) for details.
 
 ### Run the Example
 
 #### Visual Studio
 
-You can run the app on the Windows platform, or the Windows Subsystem for Linux or Docker. If you want to launch the app with docker, select _Docker_ from the Launch drop-down menu in the Visual Studio toolbar.
+You can run the app on the Windows platform, the Windows Subsystem for Linux, or Docker. To launch the app with Docker, select _Docker_ from the Launch drop-down menu in the Visual Studio toolbar.
 
 #### CLI
 
-Run the application from the dotnet CLI on Windows, Linux, and MacOS with the following command: 
+Run the application using the .NET CLI on Windows, Linux, or macOS with the following command:
 
 ```console
 dotnet run
