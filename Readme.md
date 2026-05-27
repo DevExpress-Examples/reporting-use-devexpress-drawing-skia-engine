@@ -57,9 +57,6 @@ Review the Docker documentation for more information: [BuildKit documentation](h
 
 - [Startup.cs](ReportingWebApp/Startup.cs)
 
-- [secrets.dev.yaml](ReportingWebApp/secrets.dev.yaml)
-
-    The file that contains your NuGet feed URL.
 - [ReportingWebApp.csproj](ReportingWebApp/ReportingWebApp.csproj)
 
     The `DockerfileFile` property in the project file specifies the name of the docker file to use in the project. Sample docker files for different operating systems are included in the project. You should edit the project file manually to replace the default **Debian** docker file with docker files for **Alpine**, **Ubuntu** or **Amazon Linux**. For more information on build properties in a project file, review the following help topic: [Container Tools build properties](https://docs.microsoft.com/en-us/visualstudio/containers/container-msbuild-properties?view=vs-2022).
