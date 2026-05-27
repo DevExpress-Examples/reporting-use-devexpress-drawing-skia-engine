@@ -12,12 +12,9 @@ The commands required to configure the host operating system environment for the
 
 ## How to Build and Run this Example
 
-### Specify the NuGet Feed URL for Docker
+### Obtain Your Personal DevExpress License Key
 
-To restore NuGet packages while building a Docker image, you should pass the DevExpress NuGet feed URL as a secret as follows:
-
-1. Go to [nuget.devexpress.com](https://nuget.devexpress.com) and copy your DevExpress NuGet feed URL.
-2. Paste the copied feed URL to the [secrets.dev.yaml](ReportingWebApp/secrets.dev.yaml) file located in the project.
+Building a project within a dockerized environment cannot obtain the host's key automatically - which is usually supplied as a build-time secret. Refer to [License Key for DevExpress .NET Products](https://docs.devexpress.com/GeneralInformation/405494/trial-register/set-up-your-dev-express-license-key).
 
 ### Run the Example
 
@@ -39,7 +36,7 @@ To run the Docker container from the command line, build the Docker image:
 
 ```console
 cd ReportingWebApp
-docker build -t reporting-app --secret id=dxnuget,source=secrets.dev.yaml .
+docker build -t reporting-app --secret "id=dxLicense,src=%APPDATA%\DevExpress\DevExpress_License.txt" .
 docker run -p 8080:80 reporting-app:latest
 ```
 
@@ -47,7 +44,7 @@ docker run -p 8080:80 reporting-app:latest
 
 ```shell
 cd ReportingWebApp
-DOCKER_BUILDKIT=1 docker build -t reporting-app --secret id=dxnuget,source=secrets.dev.yaml .
+docker build -t reporting-app --secret "id=dxLicense,src=$HOME/.config/DevExpress/DevExpress_License.txt" .
 docker run -p 8080:80 reporting-app:latest
 ```
 
@@ -55,7 +52,6 @@ The application page is available at the following URL: http://localhost:8080/.
 
 Review the Docker documentation for more information: [BuildKit documentation](https://docs.docker.com/build/buildkit/).
 
-> If your secrets.dev.yaml contains the byte order mark (BOM), you can get an error while restoring NuGet packages. To avoid this potential problem, make sure your secrets.dev.yaml encoding does not contain the BOM.
 
 ## Files to Review
 

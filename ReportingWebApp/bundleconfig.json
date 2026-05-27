@@ -209,7 +209,6 @@
   {
     "outputFileName": "wwwroot/css/viewer.part.bundle.css",
     "inputFiles": [
-      "node_modules/devextreme-dist/css/dx.common.css",
       "node_modules/@devexpress/analytics-core/dist/css/dx-analytics.common.css",
       "node_modules/devexpress-reporting/dist/css/dx-webdocumentviewer.css"
     ],
@@ -220,10 +219,22 @@
   },
   {
     "outputFileName": "wwwroot/css/designer.part.bundle.css",
-      "inputFiles": [
+    "inputFiles": [
       "node_modules/@devexpress/analytics-core/dist/css/dx-querybuilder.css",
       "node_modules/devexpress-reporting/dist/css/dx-reportdesigner.css"
-      ],
+    ],
+    "minify": {
+      "enabled": false,
+      "adjustRelativePaths": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/css/ace/ace.bundle.css",
+    "inputFiles": [
+      "node_modules/ace-builds/css/ace.css",
+      "node_modules/ace-builds/css/theme/dreamweaver.css",
+      "node_modules/ace-builds/css/theme/ambiance.css"
+    ],
     "minify": {
       "enabled": false,
       "adjustRelativePaths": false
@@ -244,22 +255,10 @@
     "outputFileName": "wwwroot/js/reporting.thirdparty.bundle.js",
     "inputFiles": [
       "node_modules/knockout/build/output/knockout-latest.js",
-      "node_modules/cldrjs/dist/cldr.js",
-      "node_modules/cldrjs/dist/cldr/event.js",
-      "node_modules/cldrjs/dist/cldr/supplemental.js",
-      "node_modules/cldrjs/dist/cldr/unresolved.js",
-      "node_modules/globalize/dist/globalize.js",
-      "node_modules/globalize/dist/globalize/message.js",
-      "node_modules/globalize/dist/globalize/number.js",
-      "node_modules/globalize/dist/globalize/currency.js",
-      "node_modules/globalize/dist/globalize/date.js",
-
       "node_modules/ace-builds/src-min-noconflict/ace.js",
       "node_modules/ace-builds/src-min-noconflict/ext-language_tools.js",
-      "node_modules/ace-builds/src-min-noconflict/theme-dreamweaver.js",
-      "node_modules/ace-builds/src-min-noconflict/theme-ambiance.js",
       "node_modules/ace-builds/src-min-noconflict/snippets/text.js"
-      ],
+    ],
     "minify": {
       "enabled": false
     },
@@ -271,21 +270,18 @@
       "node_modules/devextreme-dist/js/dx.all.js",
       "node_modules/@devexpress/analytics-core/dist/js/dx-analytics-core.min.js",
       "node_modules/devexpress-reporting/dist/js/dx-webdocumentviewer.min.js"
-      ],
+    ],
     "minify": {
       "enabled": false
     },
     "sourceMap": false
   },
-
-
   {
     "outputFileName": "wwwroot/js/designer.part.bundle.js",
-    "inputFiles": [      
-      
+    "inputFiles": [
       "node_modules/@devexpress/analytics-core/dist/js/dx-querybuilder.min.js",
       "node_modules/devexpress-reporting/dist/js/dx-reportdesigner.min.js"
-      ],
+    ],
     "minify": {
       "enabled": false
     },
