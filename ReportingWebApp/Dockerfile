@@ -1,6 +1,6 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim AS base
+FROM docker pull mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 
 #Install dependencies
 RUN apt-get update
@@ -16,7 +16,7 @@ WORKDIR /modules
 COPY ["package.json", "./"]
 RUN npm install
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 COPY ["ReportingWebApp.csproj", "ReportingWebApp/"]
 RUN dotnet restore "ReportingWebApp/ReportingWebApp.csproj"
